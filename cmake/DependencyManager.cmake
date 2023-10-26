@@ -666,6 +666,33 @@ function(__DependencyManager_VersionCheck versionRange version out)
     set(${out} "${compatible}" PARENT_SCOPE)
 endfunction()
 
+#[=======================================================================[.rst:
+.. code-block:: cmake
+
+    __DependencyManager_getProjectName(<path> <out>)
+
+Determines the name of the first encountered project() call in the file pointed to by
+the provided ``<path>`` and writes the determined name into ``<out>`` (in the parent scope).
+If the parsing has failed or the given file does not contain a project() invocation, then
+``<out>`` is set to an empty string.
+#]=======================================================================]
+function(__DependencyManager_getProjectName path outVar)
+    messagev("__DependencyManager_getProjectName from '${path}' to ${outVar}")
+
+    file(READ "${path}" contents)
+
+    # Strip comments (ignoring potential issues due to hashes in strings)
+    string(REGEX REPLACE "#[^\r\n]*" "" contents "${contents}")
+
+    if ("${contents}" MATCHES "project[ \t\r\n]*\\([ \t\r\n]*([a-zA-Z_0-9-]+)")
+        set(projectName "${CMAKE_MATCH_1}")
+    else()
+        set(projectName "")
+    endif()
+
+    set(${outVar} "${projectName}" PARENT_SCOPE)
+endfunction()
+
 function(DependencyManager_Populate name)
     __DependencyManager_STAMP_DIR()
     set(lockfile "${STAMP_DIR}/._private_dependencymanager_${name}-lockfile")
@@ -711,7 +738,17 @@ function(DependencyManager_Populate name)
             message(STATUS "DependencyManager_Populate(${name}) and make available")
             set(scopeVersion ${CMAKE_CURRENT_BINARY_DIR}/UpdateParentNodes_${name}.cmake)
             file(WRITE ${scopeVersion} "__DependencyManager_updateParentNodes(${name} ${firstDeclaredNodeID} \"\${${name}_VERSION}\" )")
-            set(CMAKE_PROJECT_${name}_INCLUDE "${scopeVersion}")
+
+            __DependencyManager_getProjectName("${${lcName}_SOURCE_DIR}/CMakeLists.txt" subprojectName)
+
+            if (subprojectName STREQUAL "")
+                message(WARNING
+                    "Unable to determine actual project name for depenency '${name}' - falling back to relying on assuming it is '${name}' (matching case)")
+                set(subprojectName ${name})
+            endif()
+
+            set(CMAKE_PROJECT_${subprojectName}_INCLUDE "${scopeVersion}")
+
             add_subdirectory(${${lcName}_SOURCE_DIR} ${${lcName}_BINARY_DIR})
             if (${name}_VERSION} STREQUAL "")
                 set(${name}_VERSION} "0.0.0")
