@@ -422,6 +422,13 @@ Result is set to variable <code class="docutils literal notranslate"><span class
 </div>
 <p>Checks that <code class="docutils literal notranslate"><span class="pre">&lt;version&gt;</span></code> is within <code class="docutils literal notranslate"><span class="pre">&lt;versionRange&gt;</span></code>. If it is within, then
 store <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> in variable <code class="docutils literal notranslate"><span class="pre">&lt;out&gt;</span></code>, otherwise store <code class="docutils literal notranslate"><span class="pre">FALSE</span></code>.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">__DependencyManager_getProjectName(</span><span class="nv">&lt;path&gt;</span><span class="w"> </span><span class="nv">&lt;out&gt;</span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Determines the name of the first encountered project() call in the file pointed to by
+the provided <code class="docutils literal notranslate"><span class="pre">&lt;path&gt;</span></code> and writes the determined name into <code class="docutils literal notranslate"><span class="pre">&lt;out&gt;</span></code> (in the parent scope).
+If the parsing has failed or the given file does not contain a project() invocation, then
+<code class="docutils literal notranslate"><span class="pre">&lt;out&gt;</span></code> is set to an empty string.</p>
 </section>
 </section>
 </section>
