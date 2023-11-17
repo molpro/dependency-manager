@@ -684,7 +684,7 @@ function(__DependencyManager_getProjectName path outVar)
     # Strip comments (ignoring potential issues due to hashes in strings)
     string(REGEX REPLACE "#[^\r\n]*" "" contents "${contents}")
 
-    if ("${contents}" MATCHES "project[ \t\r\n]*\\([ \t\r\n]*([a-zA-Z_0-9-]+)")
+    if ("${contents}" MATCHES "[pP][rR][oO][jJ][eE][cC][tT][ \t\r\n]*\\([ \t\r\n]*([a-zA-Z_0-9-]+)")
         set(projectName "${CMAKE_MATCH_1}")
     else()
         set(projectName "")
