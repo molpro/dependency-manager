@@ -697,6 +697,7 @@ endfunction()
 function(DependencyManager_Populate name)
     __DependencyManager_STAMP_DIR()
     set(lockfile "${STAMP_DIR}/._private_dependencymanager_${name}-lockfile")
+    message("lockfile ${lockfile}$")
 
     set(options DO_NOT_MAKE_AVAILABLE NO_VERSION_ERROR)
     set(oneValueArgs PARENT_NAME)
