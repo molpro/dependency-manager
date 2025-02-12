@@ -732,6 +732,8 @@ function(DependencyManager_Populate name)
     # NOT population order
     # I need to get the node ID using FetchContent properties
     FetchContent_GetProperties(${name})
+    file(READ "${${lcName}_SOURCE_DIR}/.dependency_manager_SHA_" __SHA)
+    message("__SHA ${__SHA}")
     if (NOT ${lcName}_POPULATED)
         message("locking ${lockfile}$")
         execute_process(COMMAND "date")
