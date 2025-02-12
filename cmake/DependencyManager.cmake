@@ -732,6 +732,7 @@ function(DependencyManager_Populate name)
     # NOT population order
     # I need to get the node ID using FetchContent properties
     FetchContent_GetProperties(${name})
+    message("${${lcName}_SOURCE_DIR}/.dependency_manager_SHA_")
     if(EXISTS "${${lcName}_SOURCE_DIR}/.dependency_manager_SHA_")
     file(READ "${${lcName}_SOURCE_DIR}/.dependency_manager_SHA_" __SHA_FILE)
     execute_process(COMMAND git -C "${${lcName}_SOURCE_DIR}" rev-parse HEAD OUTPUT_VARIABLE __SHA)
