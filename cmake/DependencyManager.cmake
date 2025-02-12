@@ -591,6 +591,7 @@ function(DependencyManager_Declare name GIT_REPOSITORY)
             STAMP_DIR "${STAMP_DIR}"
             GIT_REPOSITORY "${GIT_REPOSITORY}"
             GIT_TAG "${GIT_TAG}"
+            SOURCE_SUBDIR "_not_needed"
     )
 endfunction()
 
@@ -733,7 +734,7 @@ function(DependencyManager_Populate name)
     FetchContent_GetProperties(${name})
     if (NOT ${lcName}_POPULATED)
         file(LOCK "${lockfile}" GUARD PROCESS TIMEOUT 1000)
-        FetchContent_Populate(${name})
+        FetchContent_MakeAvailable(${name})
         if (NOT ARG_DO_NOT_MAKE_AVAILABLE)
             message(STATUS "DependencyManager_Populate(${name}) and make available")
             set(scopeVersion ${CMAKE_CURRENT_BINARY_DIR}/UpdateParentNodes_${name}.cmake)
@@ -743,7 +744,7 @@ function(DependencyManager_Populate name)
 
             if (subprojectName STREQUAL "")
                 message(WARNING
-                    "Unable to determine actual project name for depenency '${name}' - falling back to relying on assuming it is '${name}' (matching case)")
+                    "Unable to determine actual project name for dependency '${name}' - falling back to relying on assuming it is '${name}' (matching case)")
                 set(subprojectName ${name})
             endif()
 
