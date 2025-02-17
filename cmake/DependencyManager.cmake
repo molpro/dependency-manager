@@ -565,7 +565,7 @@ function(DependencyManager_Lock)
 #        else()
 #            message("_lock_result: ${_lock_result}")
 #        endif()
-    endif()
+#    endif()
 endfunction()
 
 function(DependencyManager_Declare name GIT_REPOSITORY)
