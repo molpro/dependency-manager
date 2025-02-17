@@ -736,7 +736,7 @@ function(DependencyManager_Populate name)
         file(LOCK "${lockfile}" GUARD PROCESS TIMEOUT 1000)
         FetchContent_MakeAvailable(${name})
         if (NOT ARG_DO_NOT_MAKE_AVAILABLE)
-            message(STATUS "DependencyManager_Populate(${name}) and make available")
+            messagev("DependencyManager_Populate(${name}) and make available")
             set(scopeVersion ${CMAKE_CURRENT_BINARY_DIR}/UpdateParentNodes_${name}.cmake)
             file(WRITE ${scopeVersion} "__DependencyManager_updateParentNodes(${name} ${firstDeclaredNodeID} \"\${${name}_VERSION}\" )")
 
