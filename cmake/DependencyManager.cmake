@@ -557,7 +557,7 @@ function(DependencyManager_Lock)
         set(lockfile "${STAMP_DIR}/._private_dependencymanager_lockfile")
         string(TIMESTAMP time_)
         message("Requesting lock for ${lockfile} at ${time_}")
-        file(LOCK "${lockfile}" GUARD FILE TIMEOUT 1000 RESULT_VARIABLE _lock_result) # don't allow multiple instances of cmake because of population of dependencies
+        file(LOCK "${lockfile}" GUARD PROCESS TIMEOUT 1000 RESULT_VARIABLE _lock_result) # don't allow multiple instances of cmake because of population of dependencies
         if (NOT _lock_result)
             string(TIMESTAMP time_)
             message("Locking ${lockfile} at ${time_}")
