@@ -548,9 +548,11 @@ function(__DependencyManager_update_SHA1 name)
 endfunction()
 
 function(DependencyManager_Declare name GIT_REPOSITORY)
-    if (NOT DEFINED Declare_has_run)
+    get_property(Declare_has_run_ GLOBAL PROPERTY Declare_has_run)
+    if (NOT Declare_has_run)
         message ("first declare ${name}")
         set(Declare_has_run ON PARENT_SCOPE)
+        set_property(GLOBAL PROPERTY Declare_has_run_ ON)
         set(lockfile ".cmake_build_lock")
         file(LOCK "${lockfile}" GUARD FILE TIMEOUT 1000) # don't allow multiple instances of cmake because of population of dependencies
     endif()
