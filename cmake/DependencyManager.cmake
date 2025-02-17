@@ -570,7 +570,7 @@ endfunction()
 
 function(DependencyManager_Declare name GIT_REPOSITORY)
     message ("declare ${name}")
-    DependencyManager_Lock()
+#    DependencyManager_Lock()
     string(TOLOWER "${name}" lcName)
     __DependencyManager_STAMP_DIR()
     __DependencyManager_SHA1_FILE(${name})
