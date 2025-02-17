@@ -549,22 +549,9 @@ endfunction()
 
 function(DependencyManager_Lock)
     get_property(Declare_has_run GLOBAL PROPERTY Declare_has_run_ SET)
-    message("Property Declare_has_run_ ${Declare_has_run}")
     if (NOT Declare_has_run)
-        #        set(Declare_has_run ON PARENT_SCOPE)
-                set_property(GLOBAL PROPERTY Declare_has_run_ ON)
-    file(LOCK "${CMAKE_SOURCE_DIR}/dependencies" DIRECTORY GUARD PROCESS TIMEOUT 1000) # don't allow multiple instances of cmake because of population of dependencies
-#        __DependencyManager_STAMP_DIR()
-#        set(lockfile "${STAMP_DIR}/._private_dependencymanager_lockfile")
-#        string(TIMESTAMP time_)
-#        message("Requesting lock for ${lockfile} at ${time_}")
-#        file(LOCK "${lockfile}" GUARD PROCESS TIMEOUT 1000 RESULT_VARIABLE _lock_result) # don't allow multiple instances of cmake because of population of dependencies
-#        if (NOT _lock_result)
-#            string(TIMESTAMP time_)
-#            message("Locking ${lockfile} at ${time_}")
-#        else()
-#            message("_lock_result: ${_lock_result}")
-#        endif()
+        set_property(GLOBAL PROPERTY Declare_has_run_ ON)
+        file(LOCK "${CMAKE_SOURCE_DIR}/dependencies" DIRECTORY GUARD PROCESS TIMEOUT 1000) # don't allow multiple instances of cmake because of population of dependencies
     endif()
 endfunction()
 
@@ -575,6 +562,13 @@ function(DependencyManager_Declare name GIT_REPOSITORY)
     __DependencyManager_STAMP_DIR()
     __DependencyManager_SHA1_FILE(${name})
     __DependencyManager_update_SHA1(${name})
+
+    get_property(Declare_has_run GLOBAL PROPERTY Declare_has_run_ SET)
+    if (NOT Declare_has_run)
+        set_property(GLOBAL PROPERTY Declare_has_run_ ON)
+#        file(LOCK "${CMAKE_SOURCE_DIR}/dependencies" DIRECTORY GUARD PROCESS TIMEOUT 1000) # don't allow multiple instances of cmake because of population of dependencies
+        file(LOCK "${STAMP_DIR}" DIRECTORY GUARD PROCESS TIMEOUT 1000) # don't allow multiple instances of cmake because of population of dependencies
+    endif()
 
     set(options "")
     set(oneValueArgs PARENT_NAME VERSION_RANGE)
