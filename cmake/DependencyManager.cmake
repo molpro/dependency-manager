@@ -548,7 +548,7 @@ function(__DependencyManager_update_SHA1 name)
 endfunction()
 
 function(DependencyManager_Lock)
-    get_property(Declare_has_run GLOBAL PROPERTY Declare_has_run_)
+    get_property(Declare_has_run GLOBAL PROPERTY Declare_has_run_ SET)
     message("Property Declare_has_run_ ${Declare_has_run}")
     if (NOT Declare_has_run)
         #        set(Declare_has_run ON PARENT_SCOPE)
