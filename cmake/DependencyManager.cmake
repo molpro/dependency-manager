@@ -732,7 +732,7 @@ function(DependencyManager_Populate name)
     # NOT population order
     # I need to get the node ID using FetchContent properties
     string(TIMESTAMP time_)
-    message("Locking ${lockfile} at $time_")
+    message("Locking ${lockfile} at ${time_}")
     file(LOCK "${lockfile}" GUARD FILE TIMEOUT 1000)
     FetchContent_GetProperties(${name})
     if (NOT ${lcName}_POPULATED)
@@ -763,7 +763,7 @@ function(DependencyManager_Populate name)
         message("${lcName} is already populated")
     endif ()
     string(TIMESTAMP time_)
-    message("Unocking ${lockfile} at $time_")
+    message("Unlocking ${lockfile} at ${time_}")
     file(LOCK "${lockfile}" RELEASE)
 
     __DependencyManager_currentNodeID(current ${name} ${parentName})
