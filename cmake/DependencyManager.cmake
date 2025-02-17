@@ -731,7 +731,9 @@ function(DependencyManager_Populate name)
     # The node that gets populated is based on Declaration order
     # NOT population order
     # I need to get the node ID using FetchContent properties
-    file(LOCK "${lockfile}" GUARD PROCESS TIMEOUT 1000)
+    string(TIMESTAMP time_)
+    message("Locking ${lockfile} at $time_")
+    file(LOCK "${lockfile}" GUARD FILE TIMEOUT 1000)
     FetchContent_GetProperties(${name})
     if (NOT ${lcName}_POPULATED)
         message("${lcName} is not populated")
@@ -760,6 +762,8 @@ function(DependencyManager_Populate name)
     else()
         message("${lcName} is already populated")
     endif ()
+    string(TIMESTAMP time_)
+    message("Unocking ${lockfile} at $time_")
     file(LOCK "${lockfile}" RELEASE)
 
     __DependencyManager_currentNodeID(current ${name} ${parentName})
