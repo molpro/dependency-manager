@@ -553,9 +553,9 @@ function(DependencyManager_Declare name GIT_REPOSITORY)
     __DependencyManager_SHA1_FILE(${name})
     __DependencyManager_update_SHA1(${name})
 
-    get_property(Declare_has_run GLOBAL PROPERTY Declare_has_run_ SET)
-    if (NOT Declare_has_run)
-        set_property(GLOBAL PROPERTY Declare_has_run_ ON)
+    get_property(_Declare_has_run GLOBAL PROPERTY __DependencyManager_Declare_has_run_ SET)
+    if (NOT _Declare_has_run)
+        set_property(GLOBAL PROPERTY __DependencyManager_Declare_has_run_ ON)
         file(LOCK "${STAMP_DIR}" DIRECTORY GUARD PROCESS TIMEOUT 1000) # don't allow multiple instances of cmake because of population of dependencies
     endif()
 
