@@ -558,7 +558,7 @@ function(DependencyManager_Declare name GIT_REPOSITORY)
         set(lockfile "${STAMP_DIR}/._private_dependencymanager_lockfile")
         string(TIMESTAMP time_)
         message("Requesting lock for ${lockfile} at ${time_}")
-        file(LOCK "${lockfile}" GUARD FILE TIMEOUT 1000) # don't allow multiple instances of cmake because of population of dependencies
+        file(LOCK "${lockfile}" GUARD PROCESS TIMEOUT 1000) # don't allow multiple instances of cmake because of population of dependencies
         string(TIMESTAMP time_)
         message("Locking ${lockfile} at ${time_}")
     endif()
