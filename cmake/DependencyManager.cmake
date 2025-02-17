@@ -549,6 +549,7 @@ endfunction()
 
 function(DependencyManager_Declare name GIT_REPOSITORY)
     get_property(Declare_has_run_ GLOBAL PROPERTY Declare_has_run)
+    message("Property Declare_has_run_ ${Declare_has_run}")
     if (NOT Declare_has_run)
         message ("first declare ${name}")
         set(Declare_has_run ON PARENT_SCOPE)
