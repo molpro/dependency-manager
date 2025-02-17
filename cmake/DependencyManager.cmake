@@ -556,7 +556,6 @@ function(DependencyManager_Declare name GIT_REPOSITORY)
     get_property(Declare_has_run GLOBAL PROPERTY Declare_has_run_ SET)
     if (NOT Declare_has_run)
         set_property(GLOBAL PROPERTY Declare_has_run_ ON)
-#        file(LOCK "${CMAKE_SOURCE_DIR}/dependencies" DIRECTORY GUARD PROCESS TIMEOUT 1000) # don't allow multiple instances of cmake because of population of dependencies
         file(LOCK "${STAMP_DIR}" DIRECTORY GUARD PROCESS TIMEOUT 1000) # don't allow multiple instances of cmake because of population of dependencies
     endif()
 
